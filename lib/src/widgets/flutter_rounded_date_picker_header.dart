@@ -125,14 +125,19 @@ class FlutterRoundedDatePickerHeader extends StatelessWidget {
             cornerButton: cornerButton,
             child: Semantics(
               selected: mode == DatePickerMode.year,
-              child: Text(
-                "${calculateYearEra(era, selectedDate.year)}",
-                style: yearStyle,
+              child: Row(
+                children: [
+                  Text(
+                    "${calculateYearEra(era, selectedDate.year)}",
+                    style: yearStyle,
+                  ),
+                  Visibility(
+                      visible: yearIcon != null,
+                      child: yearIcon ?? SizedBox.shrink())
+                ],
               ),
             ),
           ),
-          Visibility(
-              visible: yearIcon != null, child: yearIcon ?? SizedBox.shrink())
         ],
       ),
     );
