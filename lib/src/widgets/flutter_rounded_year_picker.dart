@@ -90,41 +90,44 @@ class _FlutterRoundedYearPickerState extends State<FlutterRoundedYearPicker> {
     final TextStyle style = themeData.textTheme.bodyMedium!.copyWith(
       fontFamily: widget.fontFamily,
     );
-    return ListView.builder(
-      dragStartBehavior: widget.dragStartBehavior,
-      controller: scrollController,
-      itemExtent: _itemExtent,
-      itemCount: widget.lastDate.year - widget.firstDate.year + 1,
-      itemBuilder: (BuildContext context, int index) {
-        final int year = widget.firstDate.year + index;
-        final bool isSelected = year == widget.selectedDate.year;
-        final TextStyle itemStyle = isSelected
-            ? (widget.style?.textStyleYearSelected ??
-                themeData.textTheme.headlineSmall!.copyWith(
-                  color: themeData.colorScheme.primary,
-                  fontFamily: widget.fontFamily,
-                ))
-            : (widget.style?.textStyleYear ?? style);
-        return InkWell(
-          key: ValueKey<int>(year),
-          onTap: () {
-            widget.onChanged(DateTime(
-              year,
-              widget.selectedDate.month,
-              widget.selectedDate.day,
-            ));
-          },
-          child: Center(
-            child: Semantics(
-              selected: isSelected,
-              child: Text(
-                "${calculateYearEra(widget.era, year)}",
-                style: itemStyle,
+    return Container(
+      color: widget.style?.backgroundPicker,
+      child: ListView.builder(
+        dragStartBehavior: widget.dragStartBehavior,
+        controller: scrollController,
+        itemExtent: _itemExtent,
+        itemCount: widget.lastDate.year - widget.firstDate.year + 1,
+        itemBuilder: (BuildContext context, int index) {
+          final int year = widget.firstDate.year + index;
+          final bool isSelected = year == widget.selectedDate.year;
+          final TextStyle itemStyle = isSelected
+              ? (widget.style?.textStyleYearSelected ??
+                  themeData.textTheme.headlineSmall!.copyWith(
+                    color: themeData.colorScheme.primary,
+                    fontFamily: widget.fontFamily,
+                  ))
+              : (widget.style?.textStyleYear ?? style);
+          return InkWell(
+            key: ValueKey<int>(year),
+            onTap: () {
+              widget.onChanged(DateTime(
+                year,
+                widget.selectedDate.month,
+                widget.selectedDate.day,
+              ));
+            },
+            child: Center(
+              child: Semantics(
+                selected: isSelected,
+                child: Text(
+                  "${calculateYearEra(widget.era, year)}",
+                  style: itemStyle,
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
